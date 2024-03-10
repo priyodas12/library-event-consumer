@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active:
+      - dev
+server:
+  port: ${random.int(9093,9193)}
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - dev
+  kafka:
+    topic: library-event
+    consumer:
+      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+      key-serializer: org.apache.kafka.common.serialization.UUIDDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: library-events-listener-group
+    admin:
+      properties:
+        bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
